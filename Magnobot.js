@@ -1,5 +1,10 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const path = require("path");
+const fs = require("fs");
+
+const TOKEN_FILE = path.join(__dirname, "token.txt"); // The path to the token file, regardless of from where the program is executed
+
 var autoAlex = false, defend = false, antiIcey = false;
 
 function commandIs(str, msg){
@@ -112,7 +117,7 @@ client.on('message', message => {
 
 
     else if(message.author.username === "iceybot" && antiIcey && message.content.search("blows raspberry") !== -1){
-        message.channel.send(';e6 order:score rating:s humor bone');
+        message.channel.send(';e6 order:score rating:s humor bone'); // Recommend caching file to reduce congestion of Iceybot (E621 api is rate limited) 
     }
 
     //Magnoria Ellipsis Emoji code: <:Ellipsis:281169089781694467>
@@ -122,4 +127,13 @@ client.on('message', message => {
     }
 });
 
-client.login('*token*');
+fs.readFile(TOKEN_FILE, (err, dat) => {
+    if (err){ // Handles errors on file read
+        console.log(err); 
+        throw err
+    } else {
+        client.login(dat.toString().replace(" ", "")) // Attempts to log in with the discord API
+              .then(() => {console.log("Logged in successfully")},
+                    () => {console.log("Could not log in")})
+    }
+})
