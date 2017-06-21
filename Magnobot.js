@@ -122,4 +122,4 @@ client.on('message', message => {
     }
 });
 
-client.login('MzI0MjQyNDQ5MjgxMTg3ODQw.DCG2CA.avpK_rDJvsPTec5vpox_XeTb7GI');
+client.login('*token*');
